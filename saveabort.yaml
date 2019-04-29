@@ -1,0 +1,22 @@
+---
+- name: saveabort playbook
+  hosts: node1,node2
+  tasks:
+   - block:
+      - name: check for the file
+        file:
+         path: /var/tmp/create.html
+      - name: print
+        debug:
+         msg: "file exists"
+     rescue:
+      - name: create the file
+        copy:
+         content: "file create right now"
+         dest: /var/tmp/create.html
+         mode: 0644
+      - name: print
+        debug:
+         msg: "file created"
+...
+

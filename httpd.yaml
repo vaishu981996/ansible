@@ -1,0 +1,38 @@
+---
+- name: httpd playbook
+  hosts: node1,node2
+  tasks:
+   - name: installing the httpd package
+     yum:
+      name: httpd
+      state: present
+   - name: start the service
+     service:
+      name: httpd
+      state: started
+   - name: enable the service
+     service:
+      name: httpd
+      enabled: yes
+   - name: download the httpd.conf
+     get_url:
+      url: http://192.168.189.11/ex407/httpd.conf
+      dest: /etc/httpd/conf/httpd.conf
+      mode: 0644
+   - name: create the index.html
+     copy:
+      content: "Hello XXX"
+      dest: /var/www/html/index.html
+      mode: 0644
+   - name: line in file changes
+     lineinfile:
+      path: /var/www/html/index.html
+      regexp: 'Hello XXX'
+      line: 'Hello {{ ansible_hostname }}'
+   - name: restart the service
+     service:
+      name: httpd
+      state: restarted
+...
+
+

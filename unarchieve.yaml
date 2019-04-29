@@ -1,0 +1,25 @@
+---
+- name: unarchieve playbook
+  hosts: node1,node2
+  vars_files:
+   - crypt.yaml
+  tasks:
+   - name: install unzip
+     yum:
+      name: unzip
+      state: present
+   - name: create the directory
+     file:
+      path: /var/www/html/vault
+      state: directory
+      mode: 0755
+   - name: download the zip file
+     get_url:
+      url: http://192.168.189.11/ex407/vault.zip
+      dest: /var/www/html/vault
+   - name: unzip
+     command: unzip -o -P "{{ password }}" /var/www/html/vault/vault.zip
+     args:
+      chdir: /var/www/html/vault
+...
+

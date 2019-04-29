@@ -1,0 +1,24 @@
+---
+- name: access playbook
+  hosts: node1,node2
+  tasks:
+   - block:
+      - name: install package
+        yum:
+         name: python-httplib2
+         state: present
+      - name: check the link
+        uri:
+         url: http://192.168.189.11/ex407/Exam_Questions.pdf 
+      - name: print
+        debug:
+         msg: "url is accessable"
+     rescue:
+      - name: create the file
+        copy:
+         content: " I don’t have access to the link"
+         dest: /var/tmp/noaccess.html 
+         mode: 0644
+...
+
+

@@ -1,0 +1,9 @@
+---
+- name: shutdown playbook
+  hosts: node2
+  tasks:
+   - name: stop the service
+     service:
+      name: httpd
+      state: stopped
+...

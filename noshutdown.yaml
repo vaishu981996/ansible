@@ -1,0 +1,9 @@
+---
+- name: noshutdown playbook
+  hosts: node1,node2
+  tasks:
+   - name: start the service
+     service:
+      name: httpd
+      state: started
+...

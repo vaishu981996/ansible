@@ -1,0 +1,26 @@
+---
+- name: failweb playbook
+  hosts: node1,node2
+  ignore_errors: yes
+  tasks:
+   - name: installing the package
+     yum:
+      name: ex407-server
+      state: present
+     register: package
+   - name: json format
+     debug:
+      var: package
+   - name: display
+     debug:
+      msg: “Installation Failed” 
+     when: package.rc == 126
+   - name: service enable
+     service:
+      name: ex407-server
+      state: started
+     when: package.rc != 126
+
+...
+
+

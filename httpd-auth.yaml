@@ -1,0 +1,36 @@
+---
+- name: httpd.auth playbook
+  hosts: node1,node2
+  tasks:
+   - name: create the protected directory
+     file:
+      path: /var/www/html/protected
+      state: directory
+      mode: 0755
+   - name: download httpaccess file
+     get_url:
+      url: http://192.168.189.11/ex407/htaccess
+      dest: /var/www/html/protected/httpaccess
+      mode: 0644
+   - name: download htpasswd file
+     get_url:
+      url: http://192.168.189.11/ex407/htpasswd
+      dest: /var/www/html/protected/htpasswd
+      mode: 0644
+   - name: download htindex file
+     get_url:
+      url: http://192.168.189.11/ex407/htindex.html
+      dest: /var/www/html/protected/htindex
+      mode: 0644
+   - name: replace the word in conf file
+     replace:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: "(?i)AllowOverride None"
+      replace: "AllowOverride AuthConfig"
+      mode: 0644
+   - name: restart the service
+     service: 
+      name: httpd
+      state: restarted
+...
+     

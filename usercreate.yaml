@@ -1,0 +1,29 @@
+---
+- name: usercreate playbook
+  hosts: node1,node2
+  roles:
+   - examfun
+  tasks:
+   - name: group creation
+     group:
+      name: "{{ item }}"
+      state: present
+     with_items:
+      - staff
+      - guests
+      - webclients
+   - name: user creation
+     user:
+      name: "{{ item }}"
+      state: present
+      groups: staff,webclients
+     with_items:
+      - "{{ staff }}"
+   - name: user creation
+     user:
+      name: "{{ item }}"
+      state: present
+      groups: guests,webclients
+     with_items:
+      - "{{ guests }}"
+...

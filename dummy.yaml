@@ -1,0 +1,21 @@
+---
+- name: dummy playbook
+  hosts: production,backup
+  tasks:
+   - name: copy the file1
+     copy:
+      src: /tmp/answer.txt
+      dest: /var/tmp/answer.txt
+      mode: 0644
+     when: inventory_hostname in groups ["production"]
+     tags:
+      - nodegroup1
+   - name: copy the file2
+     copy:
+      src: /tmp/answer.txt
+      dest: /var/tmp/answer2.txt
+      mode: 0644
+     when: inventory_hostname in groups ["backup"]
+     tags:
+      - nodegroup2
+
