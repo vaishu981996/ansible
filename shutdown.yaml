@@ -1,6 +1,6 @@
 ---
 - name: shutdown playbook
-  hosts: node2
+  hosts: all
   tasks:
    - name: stop the service
      service:
